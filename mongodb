@@ -1,0 +1,110 @@
+1. use myDatabase
+2. ⁠db.createCollection("users")
+3. ⁠db.users.insertOne({ name: "Thara" })  
+4. ⁠db.users.insertOne({ name: "Thara", age: 25, city: "Chennai" })
+5. ⁠multiple document 
+db.users.insertMany([
+  { name: "Ram", age: 28 },
+  { name: "Liya", age: 23 }
+])
+Crud 
+1. db.users.insertOne({ name: "Priya", age: 3})
+2. ⁠db.users.find()                     // Find all
+db.users.find({ age: 25 })          // Filter by age
+3.db.users.updateOne(
+  { name: "Thara" },
+  { $set: { age: 26 } }
+)
+
+4.db.users.deleteOne({ name: "Ram" })
+Conditional query and criteria 
+
+1. db.users.find({ age: { $gt: 24 } })     // age > 24
+db.users.find({ age: { $lt: 30 } })     // age < 30
+db.users.find({ city: { $in: ["Chennai", "Delhi"] } })
+———————————————
+Limiting records 
+
+2.db.users.find().limit(2)
+——————————————
+Sorting 
+3.db.users.find().sort({ age: 1 })     // Ascending
+db.users.find().sort({ age: -1 })    // Descending
+use myCollege               // 1. Switch to or create database
+db.createCollection("students")  // 2. Create collection
+// 3. Insert one student
+db.students.insertOne({ name: "Anu", age: 20, department: "CSE", city: "Chennai" })
+
+// 4. Insert multiple students
+db.students.insertMany([
+  { name: "Bala", age: 21, department: "ECE", city: "Delhi" },
+  { name: "Divya", age: 22, department: "EEE", city: "Mumbai" },
+  { name: "Sara", age: 20, department: "CSE", city: "Coimbatore" },
+  { name: "Ram", age: 23, department: "IT", city: "Chennai" }
+])
+// 5. Display all student records
+db.students.find()
+
+// 6. Students from the CSE department
+db.students.find({ department: "CSE" })
+
+// 7. Students whose age is greater than 20
+db.students.find({ age: { $gt: 20 } })
+
+// 8. Students from Chennai or Delhi
+db.students.find({ city: { $in: ["Chennai", "Delhi"] } })
+// 9. Change Ram’s department to AIML
+db.students.updateOne({ name: "Ram" }, { $set: { department: "AIML" } })
+
+// 10. Add email to Anu’s record
+db.students.updateOne({ name: "Anu" }, { $set: { email: "anu@example.com" } })
+// 11. Delete the student named Divya
+db.students.deleteOne({ name: "Divya" })
+// 12. Students whose age is less than 23
+db.students.find({ age: { $lt: 23 } })
+
+// 13. Students from ECE or IT departments
+db.students.find({ department: { $in: ["ECE", "IT"] } })
+// 14. Display only the first 2 student records
+db.students.find().limit(2)
+
+// 15. Sort by age (ascending)
+db.students.find().sort({ age: 1 })
+
+// 16. Sort by age (descending)
+db.students.find().sort({ age: -1 })
+use toyStore
+switched to db toyStore
+db.toys.insertMany([
+  { "type": "car", "brand": "HotWheels", "price": 10 },
+  { "type": "car", "brand": "Matchbox", "price": 12 },
+  { "type": "doll", "brand": "Barbie", "price": 20 },
+  { "type": "car", "brand": "HotWheels", "price": 15 },
+  { "type": "doll", "brand": "Frozen", "price": 25 }
+])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('685a7c6249e68816dcba3852'),
+    '1': ObjectId('685a7c6249e68816dcba3853'),
+    '2': ObjectId('685a7c6249e68816dcba3854'),
+    '3': ObjectId('685a7c6249e68816dcba3855'),
+    '4': ObjectId('685a7c6249e68816dcba3856')
+  }
+}
+use toyStore
+db.toys.insertMany([
+  { "type": "car", "brand": "HotWheels", "price": 10 },
+  { "type": "car", "brand": "Matchbox", "price": 12 },
+  { "type": "doll", "brand": "Barbie", "price": 20 },
+  { "type": "car", "brand": "HotWheels", "price": 15 },
+  { "type": "doll", "brand": "Frozen", "price": 25 }
+])
+db.toys.aggregate([
+  { 
+    $group: { 
+      _id: "$type", 
+      totalPrice: { $sum: "$price" } 
+    } 
+  }
+])
